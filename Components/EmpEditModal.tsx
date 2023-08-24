@@ -1,8 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { editEmployee } from './../Redux/reducers';
-import { Employee } from './../Redux/reducers';
+import React, {useState, useEffect} from 'react';
+import {
+  Modal,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {useDispatch} from 'react-redux';
+import {editEmployee} from './../Redux/reducers';
+import {Employee} from './../Redux/reducers';
 
 interface EmployeeEditModalProps {
   visible: boolean;
@@ -17,13 +24,67 @@ const EmployeeEditModal: React.FC<EmployeeEditModalProps> = ({
 }) => {
   const dispatch = useDispatch();
   const [editedEmployee, setEditedEmployee] = useState<Employee | null>(null);
+  const [validationErrors, setValidationErrors] = useState({
+    name: '',
+    email: '',
+    phoneNumber: '',
+    department: '',
+  });
 
   useEffect(() => {
     setEditedEmployee(employee);
+    setValidationErrors({
+      name: '',
+      email: '',
+      phoneNumber: '',
+      department: '',
+    });
   }, [employee]);
 
   const handleSave = () => {
-    if (editedEmployee) {
+    const errors: any = {};
+    let isValid = true;
+
+    if (!editedEmployee?.name) {
+      errors.name = 'Name is required';
+      isValid = false;
+    } else {
+      errors.name = '';
+    }
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!editedEmployee?.email) {
+      errors.email = 'Email is required';
+      isValid = false;
+    } else if (!emailPattern.test(editedEmployee.email)) {
+      errors.email = 'Invalid email format';
+      isValid = false;
+    } else {
+      errors.email = '';
+    }
+
+    const phoneNumberPattern =
+      /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    if (!editedEmployee?.phoneNumber) {
+      errors.phoneNumber = 'Phone Number is required';
+      isValid = false;
+    } else if (!phoneNumberPattern.test(editedEmployee.phoneNumber)) {
+      errors.phoneNumber = 'Not a valid Mobile Number!';
+      isValid = false;
+    } else {
+      errors.phoneNumber = '';
+    }
+
+    if (!editedEmployee?.department) {
+      errors.department = 'Department is required';
+      isValid = false;
+    } else {
+      errors.department = '';
+    }
+
+    setValidationErrors(errors);
+
+    if (isValid && editedEmployee) {
       dispatch(editEmployee(editedEmployee));
       onClose();
     }
@@ -43,6 +104,10 @@ const EmployeeEditModal: React.FC<EmployeeEditModalProps> = ({
                   setEditedEmployee({...editedEmployee, name: text})
                 }
               />
+              {validationErrors.name && (
+                <Text style={styles.errorText}>{validationErrors.name}</Text>
+              )}
+
               <TextInput
                 style={styles.input}
                 placeholder="Email"
@@ -51,6 +116,10 @@ const EmployeeEditModal: React.FC<EmployeeEditModalProps> = ({
                   setEditedEmployee({...editedEmployee, email: text})
                 }
               />
+              {validationErrors.email && (
+                <Text style={styles.errorText}>{validationErrors.email}</Text>
+              )}
+
               <TextInput
                 style={styles.input}
                 placeholder="Phone Number"
@@ -59,6 +128,12 @@ const EmployeeEditModal: React.FC<EmployeeEditModalProps> = ({
                   setEditedEmployee({...editedEmployee, phoneNumber: text})
                 }
               />
+              {validationErrors.phoneNumber && (
+                <Text style={styles.errorText}>
+                  {validationErrors.phoneNumber}
+                </Text>
+              )}
+
               <TextInput
                 style={styles.input}
                 placeholder="Department"
@@ -67,6 +142,11 @@ const EmployeeEditModal: React.FC<EmployeeEditModalProps> = ({
                   setEditedEmployee({...editedEmployee, department: text})
                 }
               />
+              {validationErrors.department && (
+                <Text style={styles.errorText}>
+                  {validationErrors.department}
+                </Text>
+              )}
             </View>
           )}
           <View style={styles.modalButtonContainer}>
@@ -116,6 +196,10 @@ const styles = StyleSheet.create({
   },
   modalButtonText: {
     color: 'white',
+  },
+  errorText: {
+    color: 'red',
+    marginBottom: 5,
   },
 });
 
