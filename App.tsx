@@ -1,5 +1,5 @@
-import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import { TouchableOpacity, StyleSheet, Text, View, StatusBar } from 'react-native';
+import React, { useState } from 'react';
 import AddEmployeeModal from './Components/AddEmpModal';
 import EmployeeList from './Components/EmpList';
 
@@ -8,11 +8,18 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => setModalVisible(true)}>
-        <Text style={styles.addButtonLabel}>+</Text>
-      </TouchableOpacity>
+      <StatusBar backgroundColor="#004B49" barStyle="light-content" />
+
+      {/* Menu bar */}
+      <View style={styles.menuBar}>
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={() => setModalVisible(true)}>
+          <Text style={styles.addButtonLabel}>+</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Content */}
       <View style={styles.content}>
         <AddEmployeeModal
           visible={modalVisible}
@@ -29,16 +36,24 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f0f0f0',
   },
+  menuBar: {
+    backgroundColor: '#004B49', // Green color for the menu bar
+    height: 60,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingRight: 16,
+    borderBottomLeftRadius: 20, // Add curved border to the bottom left corner
+    borderBottomRightRadius: 20, // Add curved border to the bottom right corner
+  },
   addButton: {
-    backgroundColor: '#006400',
     width: 40,
     height: 40,
     borderRadius: 20,
+    borderWidth: 2, // Add border width
+    borderColor: '#fff', // White color for the border
     alignItems: 'center',
     justifyContent: 'center',
-    alignSelf: 'flex-end',
-    marginRight: 16,
-    marginTop: 16,
   },
   addButtonLabel: {
     color: '#fff',

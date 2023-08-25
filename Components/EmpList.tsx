@@ -103,12 +103,12 @@ const EmployeeList: React.FC = () => {
             <TouchableOpacity
               style={styles.buttonEdit}
               onPress={() => handleEdit(item)}>
-              <Text style={styles.buttonText}>Edit</Text>
+              <Text style={styles.buttonText}>EDIT</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonDelete}
               onPress={() => handleDelete(item.id)}>
-              <Text style={styles.buttonText}>Delete</Text>
+              <Text style={styles.buttonText}>DELETE</Text>
             </TouchableOpacity>
           </View>
         </TouchableOpacity>
@@ -131,11 +131,11 @@ const EmployeeList: React.FC = () => {
         keyExtractor={item => item.id.toString()}
       />
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.saveButton} onPress={saveRecords}>
-          <Text style={styles.buttonText}>Save Records</Text>
-        </TouchableOpacity>
         <TouchableOpacity style={styles.clearButton} onPress={clearRecords}>
-          <Text style={styles.buttonText}>Clear Records</Text>
+          <Text style={styles.buttonText}>CLEAR RECORD</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.saveButton} onPress={saveRecords}>
+          <Text style={styles.buttonText}>SAVE RECORD</Text>
         </TouchableOpacity>
       </View>
       <EmployeeEditModal
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0',
   },
   card: {
-    backgroundColor: '#D3D3D3',
+    backgroundColor: '#E6EDED',
     borderRadius: 10,
     padding: 18,
     marginBottom: 16,
@@ -196,28 +196,28 @@ const styles = StyleSheet.create({
     // marginBottom: 64, // Add this line to create extra space at the bottom
   },
   saveButton: {
-    backgroundColor: '#007bff',
+    backgroundColor: '#004B49',
     paddingVertical: 8,
     paddingHorizontal: 16,
-    borderRadius: 4,
+    borderRadius: 10,
   },
   clearButton: {
     backgroundColor: '#FF0000',
     paddingVertical: 8,
     paddingHorizontal: 16,
-    borderRadius: 4,
+    borderRadius: 10,
   },
   buttonEdit: {
-    backgroundColor: '#008000',
+    backgroundColor: '#004B49',
     paddingVertical: 8,
     paddingHorizontal: 16,
-    borderRadius: 4,
+    borderRadius: 18,
   },
   buttonDelete: {
     backgroundColor: '#FF0000',
     paddingVertical: 8,
     paddingHorizontal: 16,
-    borderRadius: 4,
+    borderRadius: 18,
   },
   buttonText: {
     color: '#fff',
